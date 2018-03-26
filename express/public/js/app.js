@@ -1,6 +1,6 @@
 (function(){
-    angular.module('myApp', [])
-        .controller('myCtrl', ['$scope', function($scope){
+    angular.module('Clouder', [])
+        .controller('overviewCtrl', ['$scope', function($scope){
             $scope.a = 'apple';
 
             globalAppleObs = AppleObserver;
