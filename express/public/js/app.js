@@ -6,7 +6,7 @@
             globalAppleObs = AppleObserver;
             globalObserverList = ObserverList;
             globalSubject = Subject;
-
+            console.log($.find('#my-label'));
             function AppleObserver(name){
                 this.name = name;
             }

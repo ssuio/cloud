@@ -1,2 +1,6 @@
-let a = 'aa';
-console.log(a);
+function foo(){
+    console.log(a);
+}
+
+var a = 'aa';
+foo();
