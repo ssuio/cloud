@@ -2,7 +2,14 @@
     angular.module('Clouder', [])
         .controller('overviewCtrl', ['$scope', function($scope){
             $scope.a = 'apple';
-
+            /*Sample of socket listener*/
+            ws = WSocket;
+            ws.on('echo1', function(data) {
+                console.log(data);
+            });
+            ws.on('myspeak1', function(data) {
+                console.log(data);
+            });
             globalAppleObs = AppleObserver;
             globalObserverList = ObserverList;
             globalSubject = Subject;

@@ -83,8 +83,15 @@ var ComponentUtils = {
                                 });
                             }
 
+                            var evtObjs = new EventTable();
+
+                            function removeComponent() {
+                                evtObjs.trigger('destroy');
+                                jElm.remove();
+                            }
+
                             function onDestroy(callback) {
-                                scope.$on('$destroy', function () {
+                                evtObjs.on('$destroy', function () {
                                     if (callback)
                                         callback();
                                 });
@@ -132,23 +139,40 @@ var ComponentUtils = {
                                 };
                             }
 
+                            var isCanceling = false;
+
                             function cancel() {
+                                if (isCanceling) return;
                                 if (scope.control.onClose) {
                                     scope.control.onClose();
                                 }
                                 if (options.dialogMode) {
                                     if (scope.control.__donotAnim) {
-                                        jElm.remove();
+                                        removeComponent();
                                     } else {
                                         builder.$('#dialog').removeClass('in');
                                         builder.$('#dialog').removeClass('out');
                                         $timeout(function () {
-                                            jElm.remove();
+                                            removeComponent();
                                         }, 150);
                                     }
                                 } else {
                                     jElm.remove();
                                 }
+                            }
+
+                            function popupProgressDialog(keepWhenSuccess) {
+                                var ctrl = {
+                                    onSuccess: function () {
+                                        if (!keepWhenSuccess)
+                                            cancel();
+                                    },
+                                    onFailed: function () {
+                                        jElm.show();
+                                    }
+                                };
+                                builder.popupDialog('progressDialog', ctrl);
+                                return ctrl.dialogCtrl;
                             }
 
                             var builder = {
@@ -160,7 +184,9 @@ var ComponentUtils = {
                                 injected: injectedModules,
                                 $: function (query) {
                                     return jElm.find(query);
-                                }
+                                },
+                                popupProgressDialog:popupProgressDialog,
+                                timeout:$timeout
                             };
                             scope.cancel = cancel;
                             if (options.dialogMode) {
