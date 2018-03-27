@@ -12,7 +12,7 @@ EventTable.prototype.on = function (name, fn) {
     var _this = this;
     return function () {
         _this.off(name, fn);
-    }
+    };
 };
 EventTable.prototype.off = function (name, fn) {
     if (name in this.evts) {
@@ -35,7 +35,7 @@ EventTable.prototype.trigger = function (name, args) {
         }
     }
 };
-const Utils = {
+var Utils = {
     compileJade: function (jadeText) {
         return jade.compile(jadeText)();
     },
@@ -47,8 +47,8 @@ const Utils = {
             return '-' + matched.toLowerCase();
         });
     }
-}
-const ComponentUtils = {
+};
+var ComponentUtils = {
     createComponentBuilder: function (moduleName) {
         var module = angular.module(moduleName);
         return {
@@ -78,7 +78,7 @@ const ComponentUtils = {
                             function apply(callback) {
                                 $timeout(function () {
                                     if (callback)
-                                        callback()
+                                        callback();
                                     scope.$apply();
                                 });
                             }
@@ -129,7 +129,7 @@ const ComponentUtils = {
                                         ctrlScope.__donotAnim = true;
                                     }
                                     $('body').append(builder.compile(directiveName, ctrlScope));
-                                }
+                                };
                             }
 
                             function cancel() {
@@ -161,7 +161,7 @@ const ComponentUtils = {
                                 $: function (query) {
                                     return jElm.find(query);
                                 }
-                            }
+                            };
                             scope.cancel = cancel;
                             if (options.dialogMode) {
                                 jElm.draggable({handle: ".modal-header"});
@@ -169,22 +169,23 @@ const ComponentUtils = {
                                     cancel();
                                 });
                                 if (scope.control && scope.control.__donotAnim) {
-                                    builder.$('#dialog').css({opacity: .5});
+                                    builder.$('#dialog').css({opacity: 0.5});
                                 } else {
                                     builder.$('#dialog').addClass('in');
                                 }
                             }
-                            builder.apply(function(){
-                               var firstInputElem = builder.$('input');
-                               if(firstInputElem.length > 0){
-                                   builder.$('input')[0].focus
-                               }
+                            builder.apply(function () {
+                                var firstInputElem = builder.$('input');
+                                if (firstInputElem.length > 0) {
+                                    builder.$('input')[0].focus();
+                                }
                             });
                             options.link(scope, element, builder);
                         }
                     };
                 }
-                if(injected){
+
+                if (injected) {
                     directiveArray = directiveArray.concat(injected);
                 }
                 directiveArray.push(controller);
@@ -193,7 +194,7 @@ const ComponentUtils = {
         };
     }
 };
-const RequestWrapper = (function () {
+var RequestWrapper = (function () {
     function sendRequest(method, url, data, field, callback) {
         $.ajax({
             url: url,
@@ -233,6 +234,6 @@ const RequestWrapper = (function () {
             Delete: function (url, field, callback) {
                 sendRequest('DELETE', url, null, field, callback);
             }
-        }
+        };
     }
 }());
