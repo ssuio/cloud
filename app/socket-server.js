@@ -9,7 +9,7 @@ function startServer(server){
     const SocketIOEvent = {
         Connect: 'connection',
         Disconnect: 'disconnect'
-    }
+    };
     io.use(sharedsession(session, {
         autoSave: true
     }));
@@ -22,6 +22,14 @@ function startServer(server){
         for(var key in socketHandler){
             listenHandler(socket, key, socketHandler[key]);
         }
+        socket.on('login', function(userData){
+            socket.handshake.session.userData = userData;
+            socket.handshake.session.save();
+        });
+        socket.on('logout', function(userData){
+            delete socket.handshake.session.userData;
+            socket.handshake.session.save();
+        });
         socket.on(SocketIOEvent.Disconnect, function(reason){
             if(reason === 'transport close'){
                 console.log('disconnected from server:'+reason)

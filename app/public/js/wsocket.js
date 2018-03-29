@@ -1,5 +1,8 @@
 var WSocket = (function(){
    var client = io();
+   client.on('connect', function(){
+      console.log('connect');
+   });
    return {
        on: function(name, cb){
            client.on(name, cb);
